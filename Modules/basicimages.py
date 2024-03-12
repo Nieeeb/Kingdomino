@@ -1,8 +1,13 @@
 import cv2 as cv
 import numpy as np
+import os
 
-image = cv.imread(r"King Domino dataset\Cropped and perspective corrected boards\1.jpg")
-image_gray = cv.imread(r"King Domino dataset\Cropped and perspective corrected boards\1.jpg", cv.IMREAD_GRAYSCALE)
+path = os.path.dirname(os.getcwd()) + '\Kingdomino\King Domino dataset\Cropped and perspective corrected boards\\1.jpg'
+print(f"hahahahahahahhaa {path}")
+
+#C:\Users\willi\Documents\DAKI Mini Projects\DUAS\Kingdomino\King Domino dataset\Cropped and perspective corrected boards\1.jpg
+image = cv.imread(path)
+image_gray = cv.imread(path, cv.IMREAD_GRAYSCALE)
 cv.imshow("Raw", image)
 
 image_hsv = cv.cvtColor(image, cv.COLOR_BGR2HSV)
