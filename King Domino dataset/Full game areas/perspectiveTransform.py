@@ -47,7 +47,7 @@ while True:
     elif key == 100: # d
         image_file_number = max(0, image_file_number-1)
         image, image_small = load_image(image_file_number)
-    elif key == 102: #
+    elif key == 102: # f
         image_file_number = min(len(image_files)-1, image_file_number+1)
         image, image_small = load_image(image_file_number)
     elif key != 255:

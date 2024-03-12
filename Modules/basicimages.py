@@ -2,7 +2,9 @@ import cv2 as cv
 import numpy as np
 import os
 
-path = os.path.dirname(os.getcwd()) + '\Kingdomino\King Domino dataset\Cropped and perspective corrected boards\\1.jpg'
+
+
+path = os.path.dirname(os.getcwd()) + '\King Domino dataset\Cropped and perspective corrected boards\\1.jpg'
 print(f"hahahahahahahhaa {path}")
 
 #C:\Users\willi\Documents\DAKI Mini Projects\DUAS\Kingdomino\King Domino dataset\Cropped and perspective corrected boards\1.jpg
