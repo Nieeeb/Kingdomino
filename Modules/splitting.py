@@ -34,6 +34,14 @@ def median_filter(image):
     blurred = cv.medianBlur(working_image, 5)
     return blurred
 
+def generate_surf_features(image):
+    working_image = image.copy()
+    working_image = convert_to_grayscale(working_image)
+    sift = cv.SIFT_create()
+    keypoints_sift, descriptors_sift = sift.detectAndCompute(working_image, None)
+    img_kp = cv.drawKeypoints(working_image, keypoints_sift, None, flags=cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    cv.imshow("Keypoints", img_kp)
+
 def main():
     path = os.path.dirname(os.getcwd()) + '\Kingdomino\King Domino dataset\Cropped and perspective corrected boards\\1.jpg'
 
@@ -50,6 +58,8 @@ def main():
     cv.imshow("Binary", binary)
     median = median_filter(binary)
     cv.imshow("Median", median)
+
+    generate_surf_features(image)
 
     cv.waitKey()
     cv.destroyAllWindows()
