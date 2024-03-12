@@ -34,21 +34,25 @@ def median_filter(image):
     blurred = cv.medianBlur(working_image, 5)
     return blurred
 
-path = os.path.dirname(os.getcwd()) + '\Kingdomino\King Domino dataset\Cropped and perspective corrected boards\\1.jpg'
+def main():
+    path = os.path.dirname(os.getcwd()) + '\Kingdomino\King Domino dataset\Cropped and perspective corrected boards\\1.jpg'
 
-image = cv.imread(path)
-cv.imshow("Board", image)
+    image = cv.imread(path)
+    cv.imshow("Board", image)
 
-cut_images = split_image(image)
-raw = cut_images[18]['cut_image']
-cv.imshow("Raw", raw)
-gray = convert_to_grayscale(raw)
-cv.imshow("Converted", gray)
-binary = binary_threshold_image(gray)
-print(type(binary))
-cv.imshow("Binary", binary)
-median = median_filter(binary)
-cv.imshow("Median", median)
+    cut_images = split_image(image)
+    raw = cut_images[18]['cut_image']
+    cv.imshow("Raw", raw)
+    gray = convert_to_grayscale(raw)
+    cv.imshow("Converted", gray)
+    binary = binary_threshold_image(gray)
+    print(type(binary))
+    cv.imshow("Binary", binary)
+    median = median_filter(binary)
+    cv.imshow("Median", median)
 
-cv.waitKey()
-cv.destroyAllWindows()
+    cv.waitKey()
+    cv.destroyAllWindows()
+    
+if __name__ == "__main__":
+    main()
