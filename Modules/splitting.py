@@ -43,7 +43,7 @@ def generate_surf_features(image):
     cv.imshow("Keypoints", img_kp)
 
 def main():
-    path = os.path.dirname(os.getcwd()) + '\Kingdomino\King Domino dataset\Cropped and perspective corrected boards\\1.jpg'
+    path = os.path.dirname(os.getcwd()) + '\King Domino dataset\Cropped and perspective corrected boards\\1.jpg'
 
     image = cv.imread(path)
     cv.imshow("Board", image)

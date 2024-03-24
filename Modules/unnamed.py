@@ -7,7 +7,10 @@ def get_tiles(image):
     for y in range(5):
         tiles.append([])
         for x in range(5):
-            tiles[-1].append(image[y * 100:(y + 1) * 100, x * 100:(x + 1) * 100])
+            tile = image[y * 100:(y + 1) * 100, x * 100:(x + 1) * 100]
+            #print(tile.dtype)
+            #cv.imshow(f"Tile {(x, y)}", tile)
+            tiles[-1].append(tile)
     return tiles
 
 path = os.path.dirname(os.getcwd()) + '\King Domino dataset\Cropped and perspective corrected boards\\1.jpg'
@@ -20,14 +23,23 @@ cv.imshow("Raw", image)
 
 image_hsv = cv.cvtColor(image, cv.COLOR_BGR2HSV)
 
-tiles = get_tiles(image_hsv)
-
+tiles = get_tiles(image)
+#print(tiles[0])
+print(image.dtype)
+for x, row in enumerate(tiles):
+    for y, tile in enumerate(row):
+        cv.imshow(f"tile {x, y}", tile)
+        hsv_tile = cv.cvtColor(tile, cv.COLOR_BGR2HSV)
+        b, g, r = np.median(tile, axis=(0, 1))
+        h, s, v = np.median(hsv_tile, axis=(0, 1))
+        print(f"tile {x, y} BGR medians: {b, g, r}")
+        print(f"tile {x, y} HSV medians: {h, s, v}")
 
 
 color = ('b','g','r')
 
 histr = cv.calcHist(tiles[0][0],[1],None,[256],[0,256])
-print(histr)
+#print(histr)
 plt.plot(histr,color=color[1])
 plt.xlim([0,256])
 plt.show()
