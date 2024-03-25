@@ -5,7 +5,8 @@ import pandas as pd
 import tkinter as tk
 from PIL import Image, ImageTk
 
-#Andreas' tilesplitter funktion
+
+# Andreas' tilesplitter funktion
 def get_tiles(image):
     tiles = []
     for y in range(5):
@@ -14,6 +15,7 @@ def get_tiles(image):
             tile = image[y * 100:(y + 1) * 100, x * 100:(x + 1) * 100]
             tiles[-1].append(tile)
     return tiles
+
 
 def display_image_with_buttons(image):
     # Opret et vindue
@@ -42,8 +44,7 @@ def display_image_with_buttons(image):
 
     def on_button_click(label):
         selected_label.set(label)
-        window.destroy() # Luk vinduet, når brugeren har valgt en label
-
+        window.destroy()  # Luk vinduet, når brugeren har valgt en label
 
     # Start hovedløkken
     window.mainloop()
@@ -51,12 +52,13 @@ def display_image_with_buttons(image):
     # Returner det valgte label
     return selected_label.get()
 
+
 rgb_labels = []
 for i in range(1, 75):
     path = f'C:\GitHub\Kingdomino\King Domino dataset\Cropped and perspective corrected boards\{i}.jpg'
     image = cv.imread(path)
 
-    #cv.imshow(f"image {i}", image)
+    # cv.imshow(f"image {i}", image)
     tiles = get_tiles(image)
     for x, row in enumerate(tiles):
         for y, tile in enumerate(row):
