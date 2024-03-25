@@ -32,7 +32,7 @@ for x, row in enumerate(tiles):
 
 
 #Læs csv'en med det labelt data
-df = pd.read_csv('training.csv')
+df = pd.read_csv('hsv_training.csv')
 
 #extraction som np arrays
 labels = np.array(df['label'].values)

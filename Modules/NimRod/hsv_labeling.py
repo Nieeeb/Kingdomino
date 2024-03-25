@@ -36,6 +36,6 @@ for i in range(1, 74):
             cv.destroyWindow(winname)
 
 df = pd.DataFrame(hsv_labels)
-df.to_csv("training.csv", index=False)
+df.to_csv("hsv_training.csv", index=False)
 
 cv.destroyAllWindows()
