@@ -71,10 +71,5 @@ for i in range(1, 75):
     df = pd.DataFrame(rgb_labels)
     df.to_csv("rgb_training.csv", index=False)
 
-
-
-
-
-
 cv.waitKey()
 cv.destroyAllWindows()
