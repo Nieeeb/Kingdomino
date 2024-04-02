@@ -18,7 +18,7 @@ def get_tiles(image):
     return tiles
 
 #Usual path extraction
-path = os.path.dirname(os.getcwd()) + f'\King Domino dataset\Cropped and perspective corrected boards\\74.jpg'
+path = os.path.abspath(__file__+'/../../../') + f'\King Domino dataset\Full game areas\\3.jpg'
 unknown_image = cv.imread(path)
 tiles = get_tiles(unknown_image)
 
@@ -46,7 +46,7 @@ X_train, X_test, y_train, y_test = train_test_split(hsv_values, labels, test_siz
 knn.fit(X_train, y_train)
 
 unknown_X_test = np.array(unknown_hsv_values)
-y_pred = knn.predict(X_test)
+y_pred = knn.predict(unknown_X_test)
 
 print("Forudsagte labels:", y_pred)
 print("Sande labels:", y_test)
