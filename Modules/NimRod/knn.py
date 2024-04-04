@@ -5,7 +5,7 @@ import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 import ast
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
 
 #Andreas' tilesplitter funktion
 def get_tiles(image):
@@ -18,7 +18,7 @@ def get_tiles(image):
     return tiles
 
 #Usual path extraction
-path = os.path.abspath(__file__+'/../../../') + f'\King Domino dataset\Full game areas\\3.jpg'
+path = os.path.abspath(__file__+'/../../../') + f'\King Domino dataset\Full game areas\\4.jpg'
 unknown_image = cv.imread(path)
 tiles = get_tiles(unknown_image)
 
@@ -46,7 +46,7 @@ X_train, X_test, y_train, y_test = train_test_split(hsv_values, labels, test_siz
 knn.fit(X_train, y_train)
 
 unknown_X_test = np.array(unknown_hsv_values)
-y_pred = knn.predict(unknown_X_test)
+y_pred = knn.predict(X_test)
 
 print("Forudsagte labels:", y_pred)
 print("Sande labels:", y_test)
@@ -67,3 +67,5 @@ print(f"Recall: {recall}")
 # Beregn F1-score
 f1 = f1_score(y_test, y_pred, average='macro')
 print(f"F1-score: {f1}")
+
+print(classification_report(y_test, y_pred))

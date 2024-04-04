@@ -55,7 +55,7 @@ def display_image_with_buttons(image):
 
 rgb_labels = []
 for i in range(1, 75):
-    path = f'C:\GitHub\Kingdomino\King Domino dataset\Cropped and perspective corrected boards\{i}.jpg'
+    path = os.path.abspath(__file__+'/../../../') + f'\King Domino dataset\Cropped and perspective corrected boards\\{i}.jpg'
     image = cv.imread(path)
 
     # cv.imshow(f"image {i}", image)
