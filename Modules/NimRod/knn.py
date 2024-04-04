@@ -5,17 +5,9 @@ import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 import ast
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
-
-#Andreas' tilesplitter funktion
-def get_tiles(image):
-    tiles = []
-    for y in range(5):
-        tiles.append([])
-        for x in range(5):
-            tile = image[y * 100:(y + 1) * 100, x * 100:(x + 1) * 100]
-            tiles[-1].append(tile)
-    return tiles
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+import joblib
+from Modules.TileSplitter import get_tiles
 
 #Usual path extraction
 path = os.path.abspath(__file__+'/../../../') + f'\King Domino dataset\Full game areas\\4.jpg'
@@ -42,30 +34,74 @@ hsv_values = [ast.literal_eval(medians) for medians in hsv_values_strs]
 
 #initier knn
 knn = KNeighborsClassifier(n_neighbors=3)
-X_train, X_test, y_train, y_test = train_test_split(hsv_values, labels, test_size=0.2, random_state=42)
-knn.fit(X_train, y_train)
 
-unknown_X_test = np.array(unknown_hsv_values)
-y_pred = knn.predict(X_test)
+# X_train, X_test, y_train, y_test = train_test_split(hsv_values, labels, test_size=0.2, random_state=42)
+# knn.fit(X_train, y_train)
+#
+# unknown_X_test = np.array(unknown_hsv_values)
+# y_pred = knn.predict(X_test)
+#
+# print("Forudsagte labels:", y_pred)
+# print("Sande labels:", y_test)
+#
+# #Evaluation metrikker
+# # Beregn nøjagtighed
+# accuracy = accuracy_score(y_test, y_pred)
+# print(f"Nøjagtighed: {accuracy}")
+#
+# # Beregn præcision
+# precision = precision_score(y_test, y_pred, average='macro')
+# print(f"Præcision: {precision}")
+#
+# # Beregn recall
+# recall = recall_score(y_test, y_pred, average='macro')
+# print(f"Recall: {recall}")
+#
+# # Beregn F1-score
+# f1 = f1_score(y_test, y_pred, average='macro')
+# print(f"F1-score: {f1}")
+#
+# print(classification_report(y_test, y_pred))
 
-print("Forudsagte labels:", y_pred)
-print("Sande labels:", y_test)
+# Initialiser variabler til at gemme totalen af scores
+total_accuracy = 0
+total_precision = 0
+total_recall = 0
+total_f1 = 0
 
-#Evaluation metrikker
-# Beregn nøjagtighed
-accuracy = accuracy_score(y_test, y_pred)
-print(f"Nøjagtighed: {accuracy}")
+#number of iterations
+noi = 100
+for i in range(noi):
+    # Split data
+    X_train, X_test, y_train, y_test = train_test_split(hsv_values, labels, test_size=0.2, random_state=i)
 
-# Beregn præcision
-precision = precision_score(y_test, y_pred, average='macro')
-print(f"Præcision: {precision}")
+    # Fit knn
+    knn.fit(X_train, y_train)
 
-# Beregn recall
-recall = recall_score(y_test, y_pred, average='macro')
-print(f"Recall: {recall}")
+    # Forudsige labels for testdata
+    y_pred = knn.predict(X_test)
 
-# Beregn F1-score
-f1 = f1_score(y_test, y_pred, average='macro')
-print(f"F1-score: {f1}")
+    # Beregn nøjagtighed
+    accuracy = accuracy_score(y_test, y_pred)
+    total_accuracy += accuracy
 
-print(classification_report(y_test, y_pred))
+    # Beregn præcision
+    precision = precision_score(y_test, y_pred, average='macro')
+    total_precision += precision
+
+    # Beregn recall
+    recall = recall_score(y_test, y_pred, average='macro')
+    total_recall += recall
+
+    # Beregn F1-score
+    f1 = f1_score(y_test, y_pred, average='macro')
+    total_f1 += f1
+
+joblib.dump(knn, 'knn_model.joblib')
+print("Knn trained and saved successfully")
+
+# Udskriv gennemsnit af scoresne
+print(f"Gennemsnitlig nøjagtighed: {total_accuracy / noi}")
+print(f"Gennemsnitlig præcision: {total_precision / noi}")
+print(f"Gennemsnitlig recall: {total_recall / noi}")
+print(f"Gennemsnitlig F1-score: {total_f1 / noi}")

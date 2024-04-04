@@ -2,16 +2,7 @@ import cv2 as cv
 import numpy as np
 import os
 from matplotlib import pyplot as plt
-def get_tiles(image):
-    tiles = []
-    for y in range(5):
-        tiles.append([])
-        for x in range(5):
-            tile = image[y * 100:(y + 1) * 100, x * 100:(x + 1) * 100]
-            #print(tile.dtype)
-            #cv.imshow(f"Tile {(x, y)}", tile)
-            tiles[-1].append(tile)
-    return tiles
+from Modules.TileSplitter import get_tiles
 
 path = os.path.dirname(os.getcwd()) + '\King Domino dataset\Cropped and perspective corrected boards\\1.jpg'
 print(f"hah {path}")

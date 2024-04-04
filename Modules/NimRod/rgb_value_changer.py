@@ -2,15 +2,7 @@ import pandas as pd
 import cv2 as cv
 import os
 import numpy as np
-
-def get_tiles(image):
-    tiles = []
-    for y in range(5):
-        tiles.append([])
-        for x in range(5):
-            tile = image[y * 100:(y + 1) * 100, x * 100:(x + 1) * 100]
-            tiles[-1].append(tile)
-    return tiles
+from Modules.TileSplitter import get_tiles
 
 hsv_csv = pd.read_csv('hsv_training.csv')
 hsv_csv_copy = hsv_csv.copy()
