@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
-from Modules.TileSplitter import get_tiles
+from Kingdomino.Modules.TileSplitter import get_tiles
 
 
 # Funktion til at finde nabo-tiles baseret på tile index
@@ -85,7 +85,7 @@ hsv_values_strs = np.array(df['hsv'].values)
 hsv_values = [ast.literal_eval(medians) for medians in hsv_values_strs]
 
 # Usual path extraction
-path = os.path.abspath(__file__ + '/../../../') + f'\King Domino dataset\Full game areas\\4.jpg'
+path = os.path.abspath(__file__ + '/../../../') + f'\King Domino dataset\Full game areas\\1.jpg'
 unknown_image = cv.imread(path)
 tiles = get_tiles(unknown_image)
 

@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 import ast
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 import joblib
-from Modules.TileSplitter import get_tiles
+from Kingdomino.Modules.TileSplitter import get_tiles
 
 #Usual path extraction
 path = os.path.abspath(__file__+'/../../../') + f'\King Domino dataset\Full game areas\\4.jpg'

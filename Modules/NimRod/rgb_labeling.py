@@ -4,7 +4,7 @@ import cv2 as cv
 import pandas as pd
 import tkinter as tk
 from PIL import Image, ImageTk
-from Modules.TileSplitter import get_tiles
+from Kingdomino.Modules.TileSplitter import get_tiles
 
 
 def display_image_with_buttons(image):
