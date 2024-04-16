@@ -100,7 +100,7 @@ def main():
     rotated = []
     for template in templates:
         rotated += rotate_image(template)
-        
+    
     boxes = give_matching_boxes(rotated, tile)
     
     drawn = draw_boxes(tile, boxes)
