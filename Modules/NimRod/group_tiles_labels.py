@@ -85,7 +85,7 @@ hsv_values_strs = np.array(df['hsv'].values)
 hsv_values = [ast.literal_eval(medians) for medians in hsv_values_strs]
 
 # Usual path extraction
-path = os.path.abspath(__file__ + '/../../../') + f'\King Domino dataset\Full game areas\\1.jpg'
+path = os.path.abspath(__file__ + '/../../../') + f'\King Domino dataset\Full game areas\\2.jpg'
 unknown_image = cv.imread(path)
 tiles = get_tiles(unknown_image)
 
@@ -117,6 +117,7 @@ print(tiles_dict)
 
 # Find alle forskellige grupper af sammenhængende tiles med samme label
 all_tile_groups = find_all_tile_groups(tiles_dict)
+print(df['tile'][:25])
 
 # Udskriv antallet af tiles i hver gruppe
 for i, tile_group in enumerate(all_tile_groups):
