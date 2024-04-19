@@ -7,7 +7,7 @@ import glob
 def split_image(image):
     size = 500
     tiles_per_side = 5
-    cut_off_size = 0
+    cut_off_size = 5
     tile_size = size // tiles_per_side
     cut_images = []
     for i in range(tiles_per_side):
@@ -86,20 +86,30 @@ def rotate_image(image):
 def give_number_of_crowns(boxes):
     return len(boxes)
 
-def main():
-    #path = os.path.abspath(__file__ + '/../../../') + f'\King Domino dataset\Cropped and perspective corrected boards\\4.jpg'
-    #path = os.path.dirname(os.getcwd()) + '\King Domino dataset\Cropped and perspective corrected boards\\1.jpg'
-    path = r"King Domino dataset/Cropped and perspective corrected boards/32.jpg"
-    image = cv.imread(path)
-    #cv.imshow("Board", image)
-    cut_images = split_image(image)
-    tile = cut_images[1]['cut_image']
-    
+def create_templates():
     templates = [cv.imread(file) for file in glob.glob(r"Modules/Templates/*.png")]
     
     rotated = []
     for template in templates:
         rotated += rotate_image(template)
+    return rotated
+
+def count_crowns_in_tile(tile):
+    templates = create_templates()
+    boxes = give_matching_boxes(templates, tile)
+    count = give_number_of_crowns(boxes)
+    return count
+
+def main():
+    #path = os.path.abspath(__file__ + '/../../../') + f'\King Domino dataset\Cropped and perspective corrected boards\\4.jpg'
+    #path = os.path.dirname(os.getcwd()) + '\King Domino dataset\Cropped and perspective corrected boards\\1.jpg'
+    path = r"King Domino dataset/Cropped and perspective corrected boards/14.jpg"
+    image = cv.imread(path)
+    #cv.imshow("Board", image)
+    cut_images = split_image(image)
+    tile = cut_images[2]['cut_image']
+    
+    rotated = create_templates()
     
     boxes = give_matching_boxes(rotated, tile)
     
