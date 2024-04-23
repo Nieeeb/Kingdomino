@@ -1,4 +1,4 @@
-from Kingdomino.Modules.splitting import *
+from splitting import *
 import pandas as pd
 import cv2 as cv
 import numpy as np
@@ -124,7 +124,7 @@ def split_data(raw_data):
 def give_x_and_y(raw_data):
     working_data = raw_data.copy()
     labelColumn = 'label'
-    discardColumns = ['image', 'label', 'tileId', 'tilePosition']
+    discardColumns = ['image', 'label', 'tileId', 'tilePos', 'crowns']
     
     y = working_data[labelColumn]
     x = working_data.drop(discardColumns, axis=1)
@@ -155,8 +155,8 @@ def load_data():
     return raw_data
 
 def main():
-    #convert_hsv_data()
-    #attach_then_save_data()
+    convert_hsv_data()
+    attach_then_save_data()
     data = load_data()
     #print(data)
     
