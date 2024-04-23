@@ -154,18 +154,22 @@ def load_data():
     return raw_data
 
 def main():
-    convert_hsv_data()
-    attach_then_save_data()
+    #convert_hsv_data()
+    #attach_then_save_data()
     data = load_data()
-    print(data)
+    #print(data)
     
     x_train, y_train, x_test, y_test = complete_split(data)
     
     knn = KNeighborsClassifier(n_neighbors=3, n_jobs=-1)
     knn.fit(x_train, y_train)
     
-    predictions = knn.predict(x_test)
-    print(classification_report(y_pred=predictions, y_true=y_test))
+    path = r"King Domino dataset/Cropped and perspective corrected boards/14.jpg"
+    image = cv.imread(path)
+    print(define_tiles_for_image(knn, image))
+    
+    #predictions = knn.predict(x_test)
+    #print(classification_report(y_pred=predictions, y_true=y_test))
     
     cv.waitKey()
     cv.destroyAllWindows()

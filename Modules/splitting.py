@@ -27,7 +27,7 @@ def split_image(image):
         for j in range(tiles_per_side):
             cut = image[i*tile_size:(i+1)*tile_size, j*tile_size:(j+1)*tile_size]
             cut = cut[cut_off_size:tile_size - cut_off_size, cut_off_size:tile_size - cut_off_size]
-            cut_save = {'position': (i, j), 'cut_image': cut}
+            cut_save = {'tilePos': (i, j), 'cut_image': cut}
             image_colors = calculate_color_values(cut)
             final_dict = cut_save | image_colors
             cut_images.append(final_dict)
@@ -115,6 +115,22 @@ def count_crowns_in_tile(tile):
     count = give_number_of_crowns(boxes)
     return count
 
+def define_tiles_for_image(classifier, image):
+    cut_images = split_image(image)
+    df = pd.DataFrame(cut_images)
+    print(df)
+    X = df.drop(['tilePos', 'cut_image'], axis=1)
+    labels = classifier.predict(X)
+    df['labels'] = labels
+    return df
+
+def create_dict_with_pos_and_label(df):
+    output = []
+    for row in df:
+        item = {row['tilePos']: row['label']}
+        output.append(item)
+    return output
+
 def main():
     #path = os.path.abspath(__file__ + '/../../../') + f'\King Domino dataset\Cropped and perspective corrected boards\\4.jpg'
     #path = os.path.dirname(os.getcwd()) + '\King Domino dataset\Cropped and perspective corrected boards\\1.jpg'
@@ -122,8 +138,6 @@ def main():
     image = cv.imread(path)
     #cv.imshow("Board", image)
     cut_images = split_image(image)
-    df = pd.DataFrame(cut_images)
-    print(df)
     tile = cut_images[2]['cut_image']
     
     rotated = create_templates()
