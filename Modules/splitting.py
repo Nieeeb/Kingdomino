@@ -29,7 +29,8 @@ def split_image(image):
             cut = cut[cut_off_size:tile_size - cut_off_size, cut_off_size:tile_size - cut_off_size]
             cut_save = {'tilePos': (i, j), 'cut_image': cut}
             image_colors = calculate_color_values(cut)
-            final_dict = cut_save | image_colors
+            crowns = {'crowns': count_crowns_in_tile(cut)}
+            final_dict = cut_save | image_colors | crowns
             cut_images.append(final_dict)
     return cut_images
 
@@ -119,7 +120,7 @@ def define_tiles_for_image(classifier, image):
     cut_images = split_image(image)
     df = pd.DataFrame(cut_images)
     print(df)
-    X = df.drop(['tilePos', 'cut_image'], axis=1)
+    X = df.drop(['tilePos', 'cut_image', 'crowns'], axis=1)
     labels = classifier.predict(X)
     df['labels'] = labels
     return df
@@ -128,6 +129,12 @@ def create_dict_with_pos_and_label(df):
     output = {}
     for row in df.iterrows():
         output = output | {row['tilePos']: row['label']}
+    return output
+
+def create_dict_with_pos_and_crowncount(df):
+    output = {}
+    for row in df.iterrows():
+        output = output | {row['tilePos']: row['crowns']}
     return output
 
 def main():
