@@ -1,8 +1,21 @@
 import cv2 as cv
 import os
 import numpy as np
+import pandas as pd
 from imutils.object_detection import non_max_suppression 
 import glob
+
+def calculate_color_values(tile):
+    rgbTile = cv.cvtColor(tile, cv.COLOR_BGR2RGB)
+    meanR, meanG, meanB = np.mean(rgbTile, axis=(0,1))
+    medR, medG, medB = np.median(rgbTile, axis=(0,1))
+    
+    hsvTile = cv.cvtColor(tile, cv.COLOR_BGR2HSV)
+    meanH, meanS, meanV = np.mean(hsvTile, axis=(0,1))
+    medH, medS, medV = np.median(hsvTile, axis=(0,1))
+    
+    dict = {'medH': medH,'medS': medS,'medV': medV,'medR': medR,'medG': medG,'medB': medB,'meanR': meanR,'meanG': meanG,'meanB': meanB,'meanH': meanH,'meanS': meanS,'meanV': meanV}
+    return dict
 
 def split_image(image):
     size = 500
@@ -15,7 +28,9 @@ def split_image(image):
             cut = image[i*tile_size:(i+1)*tile_size, j*tile_size:(j+1)*tile_size]
             cut = cut[cut_off_size:tile_size - cut_off_size, cut_off_size:tile_size - cut_off_size]
             cut_save = {'position': (i, j), 'cut_image': cut}
-            cut_images.append(cut_save)
+            image_colors = calculate_color_values(cut)
+            final_dict = cut_save | image_colors
+            cut_images.append(final_dict)
     return cut_images
 
 def display_cuts(cut_images):
@@ -107,6 +122,8 @@ def main():
     image = cv.imread(path)
     #cv.imshow("Board", image)
     cut_images = split_image(image)
+    df = pd.DataFrame(cut_images)
+    print(df)
     tile = cut_images[2]['cut_image']
     
     rotated = create_templates()

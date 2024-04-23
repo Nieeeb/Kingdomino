@@ -6,6 +6,7 @@ import random
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
+import ast
 
 def load_image_from_id(imageid):
     path = f"King Domino dataset/Cropped and perspective corrected boards/{imageid}.jpg"
@@ -21,11 +22,15 @@ def give_tile_by_image_and_tile_id(imageid, tileid):
     tile = give_specific_tile(tileid, image)
     return tile
 
+def give_tile_by_image_and_position(imageid, tilePosition):
+    tileId = 5 + tilePosition[0] * tilePosition[1]
+    tile = give_tile_by_image_and_position(imageid, tileId)
+    return tile
+
 def convert_hsv_data():
     raw_data = pd.read_csv(r"Modules/NimRod/hsv_training.csv")
     image_id = []
     tiles = []
-    counter = 0
     for i in range(73):
         image_id.append(i)
         tile_id = []
@@ -33,7 +38,8 @@ def convert_hsv_data():
             tile_id.append(j)
         tiles += tile_id
     raw_data['tileId'] = tiles
-    raw_data = raw_data.drop(['tile', 'hsv'], axis=1)
+    raw_data = raw_data.rename(columns={'tile': 'tilePosition'})   
+    raw_data = raw_data.drop(['hsv'], axis=1)
     raw_data.to_csv(r"King Domino dataset/raw.csv", index=False)
     print(raw_data)
     
@@ -49,9 +55,9 @@ def attach_hsv_data(raw_data):
         h_collected.append(h)
         s_collected.append(s)
         v_collected.append(v)
-    working_data['h'] = h_collected
-    working_data['s'] = s_collected
-    working_data['v'] = v_collected
+    working_data['medH'] = h_collected
+    working_data['medS'] = s_collected
+    working_data['medV'] = v_collected
 
     return working_data
 
@@ -62,20 +68,47 @@ def attach_rgb_data(raw_data):
     b_collected = []
     for index, row in working_data.iterrows():
         tile = give_tile_by_image_and_tile_id(row['image'], row['tileId'])
-        #rgb_tile = cv.cvtColor(tile, cv.COLOR_BGR2HSV)
         b, g, r = np.median(tile, axis=(0, 1))
         r_collected.append(r)
         g_collected.append(g)
         b_collected.append(b)
-    working_data['r'] = r_collected
-    working_data['g'] = g_collected
-    working_data['b'] = b_collected
+    working_data['medR'] = r_collected
+    working_data['medG'] = g_collected
+    working_data['medB'] = b_collected
+    
+    return working_data
+
+def attach_means(raw_data):
+    working_data = raw_data.copy()
+    r_collected = []
+    g_collected = []
+    b_collected = []
+    h_collected = []
+    s_collected = []
+    v_collected = []
+    for index, row in working_data.iterrows():
+        tile = give_tile_by_image_and_tile_id(row['image'], row['tileId'])
+        b, g, r = np.mean(tile, axis=(0, 1))
+        r_collected.append(r)
+        g_collected.append(g)
+        b_collected.append(b)
+        hsv_tile = cv.cvtColor(tile, cv.COLOR_BGR2HSV)
+        h, s, v = np.mean(hsv_tile, axis=(0, 1))
+        h_collected.append(h)
+        s_collected.append(s)
+        v_collected.append(v)
+    working_data['meanR'] = r_collected
+    working_data['meanG'] = g_collected
+    working_data['meanB'] = b_collected
+    working_data['meanH'] = h_collected
+    working_data['meanS'] = s_collected
+    working_data['meanV'] = v_collected
     
     return working_data
 
 def pick_training_ids(percentage, imagecount):
     ids_to_keep = [i for i in range(imagecount)]
-    random.Random(42).shuffle(ids_to_keep)
+    random.Random(69).shuffle(ids_to_keep)
     count_to_remove = round(imagecount * percentage)
     ids_to_remove = ids_to_keep[:count_to_remove]
     
@@ -91,7 +124,7 @@ def split_data(raw_data):
 def give_x_and_y(raw_data):
     working_data = raw_data.copy()
     labelColumn = 'label'
-    discardColumns = ['image', 'label', 'tileId']
+    discardColumns = ['image', 'label', 'tileId', 'tilePosition']
     
     y = working_data[labelColumn]
     x = working_data.drop(discardColumns, axis=1)
@@ -113,6 +146,7 @@ def attach_then_save_data():
     raw_data = pd.read_csv(r"King Domino dataset/raw.csv")
     attached = attach_hsv_data(raw_data)
     attached = attach_rgb_data(attached)
+    attached = attach_means(attached)
     attached.to_csv(r"King Domino dataset/attached.csv", index=False)
 
 def load_data():
@@ -120,8 +154,8 @@ def load_data():
     return raw_data
 
 def main():
-    #convert_hsv_data()
-    #attach_then_save_data()
+    convert_hsv_data()
+    attach_then_save_data()
     data = load_data()
     print(data)
     
