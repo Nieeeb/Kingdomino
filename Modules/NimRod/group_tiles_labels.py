@@ -77,13 +77,13 @@ def find_all_tile_groups(tiles_dict):
 
 
 # Læs csv'en med det labelt data
-df = pd.read_csv('hsv_training.csv')
-
-# extraction som np arrays
-labels = np.array(df['label'].values)
-hsv_values_strs = np.array(df['hsv'].values)
-# tuplerne i datasættet er åbenbart string lmao
-hsv_values = [ast.literal_eval(medians) for medians in hsv_values_strs]
+# df = pd.read_csv('hsv_training.csv')
+#
+# # extraction som np arrays
+# labels = np.array(df['label'].values)
+# hsv_values_strs = np.array(df['hsv'].values)
+# # tuplerne i datasættet er åbenbart string lmao
+# hsv_values = [ast.literal_eval(medians) for medians in hsv_values_strs]
 
 # Usual path extraction
 path = os.path.abspath(__file__ + '/../../../') + f'\King Domino dataset\Full game areas\\2.jpg'
