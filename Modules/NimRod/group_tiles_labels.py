@@ -4,8 +4,9 @@ import ast
 import numpy as np
 import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.model_selection import train_test_split
-from Kingdomino.Modules.TileSplitter import get_tiles
+from Kingdomino.Modules.dataloading import *
+
+
 
 
 # Funktion til at finde nabo-tiles baseret på tile index
@@ -87,37 +88,39 @@ hsv_values = [ast.literal_eval(medians) for medians in hsv_values_strs]
 # Usual path extraction
 path = os.path.abspath(__file__ + '/../../../') + f'\King Domino dataset\Full game areas\\2.jpg'
 unknown_image = cv.imread(path)
-tiles = get_tiles(unknown_image)
+# tiles = get_tiles(unknown_image)
 
 # Brugt til at generere unlabeled HSV datapunkter til knn'en
-unknown_hsv_values = []
-tiles_indeces = []
-for x, row in enumerate(tiles):
-    for y, tile in enumerate(row):
-        hsv_tile = cv.cvtColor(tile, cv.COLOR_BGR2HSV)
-        h, s, v = np.median(hsv_tile, axis=(0, 1))
-        unknown_hsv_values.append([h, s, v])
-        tiles_indeces.append((x, y))
-print(tiles_indeces)
+# unknown_hsv_values = []
+# tiles_indeces = []
+# for x, row in enumerate(tiles):
+#     for y, tile in enumerate(row):
+#         hsv_tile = cv.cvtColor(tile, cv.COLOR_BGR2HSV)
+#         h, s, v = np.median(hsv_tile, axis=(0, 1))
+#         unknown_hsv_values.append([h, s, v])
+#         tiles_indeces.append((x, y))
+# print(tiles_indeces)
 
 # initier knn
 knn = KNeighborsClassifier(n_neighbors=3)
-
-X_train, X_test, y_train, y_test = train_test_split(hsv_values, labels, test_size=0.2, random_state=42)
+data = load_data()
+X_train, y_train, X_test, y_test = complete_split(data)
 knn.fit(X_train, y_train)
 
-unknown_X_test = np.array(unknown_hsv_values)
-y_pred = knn.predict(unknown_X_test)
-
-print("Forudsagte labels:", y_pred)
-tiles_dict = {}
-for x, row in enumerate(tiles_indeces):
-    tiles_dict[row] = y_pred[x]
+df = define_tiles_for_image(knn, unknown_image)
+tiles_dict = create_dict_with_pos_and_label(df)
 print(tiles_dict)
+# unknown_X_test = np.array(unknown_hsv_values)
+# y_pred = knn.predict(unknown_X_test)
+
+# print("Forudsagte labels:", y_pred)
+
+# for x, row in enumerate(tiles_indeces):
+#     tiles_dict[row] = y_pred[x]
+# print(tiles_dict)
 
 # Find alle forskellige grupper af sammenhængende tiles med samme label
 all_tile_groups = find_all_tile_groups(tiles_dict)
-print(df['tile'][:25])
 
 # Udskriv antallet af tiles i hver gruppe
 for i, tile_group in enumerate(all_tile_groups):

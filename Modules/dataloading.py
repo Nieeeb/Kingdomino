@@ -1,4 +1,4 @@
-from splitting import *
+from Kingdomino.Modules.splitting import *
 import pandas as pd
 import cv2 as cv
 import numpy as np
@@ -150,7 +150,8 @@ def attach_then_save_data():
     attached.to_csv(r"King Domino dataset/attached.csv", index=False)
 
 def load_data():
-    raw_data = pd.read_csv(r"King Domino dataset/attached.csv")
+    path = os.path.abspath(__file__ + '/../../../') + f'\Kingdomino\King Domino dataset/attached.csv'
+    raw_data = pd.read_csv(path)
     return raw_data
 
 def main():
