@@ -125,10 +125,9 @@ def define_tiles_for_image(classifier, image):
     return df
 
 def create_dict_with_pos_and_label(df):
-    output = []
+    output = {}
     for row in df:
-        item = {row['tilePos']: row['label']}
-        output.append(item)
+        output = output | {row['tilePos']: row['label']}
     return output
 
 def main():
