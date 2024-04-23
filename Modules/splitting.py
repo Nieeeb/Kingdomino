@@ -127,13 +127,13 @@ def define_tiles_for_image(classifier, image):
 
 def create_dict_with_pos_and_label(df):
     output = {}
-    for row in df.iterrows():
-        output = output | {row['tilePos']: row['label']}
+    for index, row in df.iterrows():
+        output = output | {row['tilePos']: row['labels']}
     return output
 
 def create_dict_with_pos_and_crowncount(df):
     output = {}
-    for row in df.iterrows():
+    for index, row in df.iterrows():
         output = output | {row['tilePos']: row['crowns']}
     return output
 
