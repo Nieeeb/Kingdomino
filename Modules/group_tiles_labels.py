@@ -115,7 +115,7 @@ def count_points(tiles_dict, crown_dict, all_tile_groups):
 # hsv_values = [ast.literal_eval(medians) for medians in hsv_values_strs]
 
 # Usual path extraction
-path = r'King Domino dataset\Full game areas\unknown2.jpg'
+path = r'King Domino dataset\Full game areas\unknown3.jpg'
 unknown_image = cv.imread(path)
 # tiles = get_tiles(unknown_image)
 
