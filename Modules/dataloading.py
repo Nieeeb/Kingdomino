@@ -1,4 +1,4 @@
-from splitting import *
+from Kingdomino.Modules.splitting import *
 import pandas as pd
 import cv2 as cv
 import numpy as np
