@@ -165,7 +165,7 @@ def main():
     knn = KNeighborsClassifier(n_neighbors=3, n_jobs=-1)
     knn.fit(x_train, y_train)
     
-    path = r"King Domino dataset/Cropped and perspective corrected boards/14.jpg"
+    path = r"King Domino dataset/Full game areas/2.jpg"
     image = cv.imread(path)
     print(define_tiles_for_image(knn, image))
     
