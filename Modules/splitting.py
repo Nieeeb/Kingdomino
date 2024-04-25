@@ -140,7 +140,7 @@ def create_dict_with_pos_and_crowncount(df):
 def main():
     #path = os.path.abspath(__file__ + '/../../../') + f'\King Domino dataset\Cropped and perspective corrected boards\\4.jpg'
     #path = os.path.dirname(os.getcwd()) + '\King Domino dataset\Cropped and perspective corrected boards\\1.jpg'
-    path = r"King Domino dataset\Full game areas\unknown3.jpg"
+    path = r"King Domino dataset\Cropped and perspective corrected boards\61.jpg"
     image = cv.imread(path)
     #cv.imshow("Board", image)
     cut_images = split_image(image)
