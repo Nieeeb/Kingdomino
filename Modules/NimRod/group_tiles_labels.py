@@ -64,7 +64,7 @@ def find_tile_group(tile_index, tiles_dict, visited):
 
 
 # Funktion til at finde alle forskellige grupper af sammenhængende tiles med samme label
-def find_all_tile_groups(tiles_dict):
+def find_all_tile_groups(tiles_dict, crown_dict):
     visited = set()
     tile_groups = []
 
@@ -109,7 +109,8 @@ knn.fit(X_train, y_train)
 
 df = define_tiles_for_image(knn, unknown_image)
 tiles_dict = create_dict_with_pos_and_label(df)
-print(tiles_dict)
+crown_dict = create_dict_with_pos_and_crowncount(df)
+print("crown dict", crown_dict)
 # unknown_X_test = np.array(unknown_hsv_values)
 # y_pred = knn.predict(unknown_X_test)
 
@@ -120,7 +121,7 @@ print(tiles_dict)
 # print(tiles_dict)
 
 # Find alle forskellige grupper af sammenhængende tiles med samme label
-all_tile_groups = find_all_tile_groups(tiles_dict)
+all_tile_groups = find_all_tile_groups(tiles_dict, crown_dict)
 
 # Udskriv antallet af tiles i hver gruppe
 for i, tile_group in enumerate(all_tile_groups):
