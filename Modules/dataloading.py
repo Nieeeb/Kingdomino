@@ -124,7 +124,7 @@ def split_data(raw_data):
 def give_x_and_y(raw_data):
     working_data = raw_data.copy()
     labelColumn = 'label'
-    discardColumns = ['image', 'label', 'tileId', 'tilePos', 'crowns']
+    discardColumns = ['image', 'label', 'tileId', 'tilePosition']
     
     y = working_data[labelColumn]
     x = working_data.drop(discardColumns, axis=1)
@@ -155,8 +155,8 @@ def load_data():
     return raw_data
 
 def main():
-    convert_hsv_data()
-    attach_then_save_data()
+    #convert_hsv_data()
+    #attach_then_save_data()
     data = load_data()
     #print(data)
     
