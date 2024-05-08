@@ -89,78 +89,48 @@ def count_points(tiles_dict, crown_dict, all_tile_groups):
     unknown_exists = False
     for i, groups in enumerate(all_tile_groups):
         crowns_in_group = 0
-        print(f'group{i+1}: ', groups)
         for tile in groups:
             if tiles_dict[tile] == 'unknown':
                 unknown_exists = True
             crowns_in_group += crown_dict[tile]
             if tile == (2, 2) and tiles_dict[tile] == 'home':
                 total_points += 10
-        print(f'amount of crowns in group {i+1}: ', crowns_in_group)
-
-        print(f'points in group {i+1}', crowns_in_group*len(groups))
         total_points += crowns_in_group*len(groups)
 
     if not unknown_exists:
         total_points += 5
     return total_points
 
-# Læs csv'en med det labelt data
-# df = pd.read_csv('hsv_training.csv')
-#
-# # extraction som np arrays
-# labels = np.array(df['label'].values)
-# hsv_values_strs = np.array(df['hsv'].values)
-# # tuplerne i datasættet er åbenbart string lmao
-# hsv_values = [ast.literal_eval(medians) for medians in hsv_values_strs]
+def count_points_in_image(image, classifier):
+    df = define_tiles_for_image(classifier, image)
+    tiles_dict = create_dict_with_pos_and_label(df)
+    crown_dict = create_dict_with_pos_and_crowncount(df)
+    all_tile_groups = find_all_tile_groups(tiles_dict, crown_dict)
+    total_points = count_points(tiles_dict, crown_dict, all_tile_groups)
+    return total_points, tiles_dict, all_tile_groups, crown_dict
 
-# Usual path extraction
-path = r"King Domino dataset/Full game areas/2.jpg"
-print(path)
-unknown_image = cv.imread(path)
-# tiles = get_tiles(unknown_image)
-
-# Brugt til at generere unlabeled HSV datapunkter til knn'en
-# unknown_hsv_values = []
-# tiles_indeces = []
-# for x, row in enumerate(tiles):
-#     for y, tile in enumerate(row):
-#         hsv_tile = cv.cvtColor(tile, cv.COLOR_BGR2HSV)
-#         h, s, v = np.median(hsv_tile, axis=(0, 1))
-#         unknown_hsv_values.append([h, s, v])
-#         tiles_indeces.append((x, y))
-# print(tiles_indeces)
-
-# initier knn
-knn = KNeighborsClassifier(n_neighbors=3)
-data = load_data()
-X_train, y_train, X_test, y_test = complete_split(data)
-knn.fit(X_train, y_train)
-
-df = define_tiles_for_image(knn, unknown_image)
-tiles_dict = create_dict_with_pos_and_label(df)
-crown_dict = create_dict_with_pos_and_crowncount(df)
-# print("crown dict", crown_dict)
-# unknown_X_test = np.array(unknown_hsv_values)
-# y_pred = knn.predict(unknown_X_test)
-
-# print("Forudsagte labels:", y_pred)
-
-# for x, row in enumerate(tiles_indeces):
-#     tiles_dict[row] = y_pred[x]
-# print(tiles_dict)
-
-# Find alle forskellige grupper af sammenhængende tiles med samme label
-all_tile_groups = find_all_tile_groups(tiles_dict, crown_dict)
+def main():
+    # Usual path extraction
+    path = r"Kingdomino/King Domino dataset/Full game areas/2.jpg"
+    unknown_image = cv.imread(path)
 
 
-total_points = count_points(tiles_dict, crown_dict, all_tile_groups)
+    # initier knn
+    knn = KNeighborsClassifier(n_neighbors=3)
+    data = load_data()
+    X_train, y_train, X_test, y_test = complete_split(data)
+    knn.fit(X_train, y_train)
 
 
 
-print('Total points in image: ', total_points)
+    total_points, tiles_dict, all_tile_groups, crown_dict = count_points_in_image(unknown_image, knn)
 
-# Udskriv antallet af tiles i hver gruppe
-for i, tile_group in enumerate(all_tile_groups):
-    label = tiles_dict[tile_group[0]]
-    print(f"Gruppe {i + 1}: Antal tiles = {len(tile_group)}, Label = {label}")
+    print('Total points in image: ', total_points)
+
+    # Udskriv antallet af tiles i hver gruppe
+    for i, tile_group in enumerate(all_tile_groups):
+        label = tiles_dict[tile_group[0]]
+        print(f"Gruppe {i + 1}: Antal tiles = {len(tile_group)}, Label = {label}")
+
+if __name__ == '__main__':
+    main()

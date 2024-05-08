@@ -119,7 +119,6 @@ def count_crowns_in_tile(tile):
 def define_tiles_for_image(classifier, image):
     cut_images = split_image(image)
     df = pd.DataFrame(cut_images)
-    print(df)
     X = df.drop(['tilePos', 'cut_image', 'crowns'], axis=1)
     labels = classifier.predict(X)
     df['labels'] = labels
