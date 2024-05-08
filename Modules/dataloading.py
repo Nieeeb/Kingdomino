@@ -111,7 +111,7 @@ def pick_training_ids(percentage, imagecount):
     random.Random(69).shuffle(ids_to_keep)
     count_to_remove = round(imagecount * percentage)
     ids_to_remove = ids_to_keep[:count_to_remove]
-    
+    # print(ids_to_remove)
     return ids_to_remove
 
 def split_data(raw_data):
