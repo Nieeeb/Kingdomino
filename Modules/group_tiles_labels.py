@@ -6,9 +6,6 @@ import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
 from dataloading import *
 
-
-
-
 # Funktion til at finde nabo-tiles baseret på tile index
 def find_neighbor_tiles(tile_index):
     row_index, col_index = tile_index
@@ -29,13 +26,6 @@ def find_neighbor_tiles(tile_index):
         neighbors.append((row_index, col_index + 1))
 
     return neighbors
-
-
-# Funktion til at tælle antallet af naboer af samme slags
-def count_same_type_neighbors(tile_index, tiles_dict):
-    visited = set()
-    tile_group = find_tile_group(tile_index, tiles_dict, visited)
-    return len(tile_group)
 
 
 # Funktion til at finde alle tiles i en gruppe af sammenhængende tiles med samme label
@@ -64,7 +54,7 @@ def find_tile_group(tile_index, tiles_dict, visited):
 
 
 # Funktion til at finde alle forskellige grupper af sammenhængende tiles med samme label
-def find_all_tile_groups(tiles_dict, crown_dict):
+def find_all_tile_groups(tiles_dict):
     visited = set()
     tile_groups = []
 
@@ -105,7 +95,7 @@ def count_points_in_image(image, classifier):
     df = define_tiles_for_image(classifier, image)
     tiles_dict = create_dict_with_pos_and_label(df)
     crown_dict = create_dict_with_pos_and_crowncount(df)
-    all_tile_groups = find_all_tile_groups(tiles_dict, crown_dict)
+    all_tile_groups = find_all_tile_groups(tiles_dict)
     total_points = count_points(tiles_dict, crown_dict, all_tile_groups)
     return total_points, tiles_dict, all_tile_groups, crown_dict
 
@@ -114,14 +104,11 @@ def main():
     path = r"Kingdomino/King Domino dataset/Full game areas/2.jpg"
     unknown_image = cv.imread(path)
 
-
     # initier knn
     knn = KNeighborsClassifier(n_neighbors=3)
     data = load_data()
     X_train, y_train, X_test, y_test = complete_split(data)
     knn.fit(X_train, y_train)
-
-
 
     total_points, tiles_dict, all_tile_groups, crown_dict = count_points_in_image(unknown_image, knn)
 
