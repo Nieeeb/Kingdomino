@@ -1,8 +1,4 @@
-import os
 import cv2 as cv
-import ast
-import numpy as np
-import pandas as pd
 from sklearn.neighbors import KNeighborsClassifier
 from dataloading import *
 
@@ -58,7 +54,6 @@ def find_all_tile_groups(tiles_dict):
     visited = set()
     tile_groups = []
 
-
     for tile_index in tiles_dict:
         if tile_index not in visited:
             tile_group = find_tile_group(tile_index, tiles_dict, visited)
@@ -66,18 +61,11 @@ def find_all_tile_groups(tiles_dict):
 
     return tile_groups
 
-def count_crowns_in_groups(tile_groups, crown_dict):
-    match_dict = {}
-    for i, group in enumerate(tile_groups):
-        match_dict[i] = 0
-        for tile in group:
-            match_dict[i] += crown_dict[tile]
-    return match_dict
-
+# Funktion til at tælle point på 
 def count_points(tiles_dict, crown_dict, all_tile_groups):
     total_points = 0
     unknown_exists = False
-    for i, groups in enumerate(all_tile_groups):
+    for groups in all_tile_groups:
         crowns_in_group = 0
         for tile in groups:
             if tiles_dict[tile] == 'unknown':
@@ -97,7 +85,7 @@ def count_points_in_image(image, classifier):
     crown_dict = create_dict_with_pos_and_crowncount(df)
     all_tile_groups = find_all_tile_groups(tiles_dict)
     total_points = count_points(tiles_dict, crown_dict, all_tile_groups)
-    return total_points, tiles_dict, all_tile_groups, crown_dict
+    return total_points, tiles_dict, all_tile_groups
 
 def main():
     # Usual path extraction
@@ -110,7 +98,7 @@ def main():
     X_train, y_train, X_test, y_test = complete_split(data)
     knn.fit(X_train, y_train)
 
-    total_points, tiles_dict, all_tile_groups, crown_dict = count_points_in_image(unknown_image, knn)
+    total_points, tiles_dict, all_tile_groups = count_points_in_image(unknown_image, knn)
 
     print('Total points in image: ', total_points)
 
