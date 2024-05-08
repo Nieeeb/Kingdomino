@@ -101,7 +101,7 @@ def count_points_in_image(image, classifier):
 
 def main():
     # Usual path extraction
-    path = r"Kingdomino/King Domino dataset/Full game areas/2.jpg"
+    path = r"King Domino dataset/Full game areas/2.jpg"
     unknown_image = cv.imread(path)
 
     # initier knn

@@ -15,7 +15,20 @@ def calculate_color_values(tile):
     meanH, meanS, meanV = np.mean(hsvTile, axis=(0,1))
     medH, medS, medV = np.median(hsvTile, axis=(0,1))
     
-    dict = {'medH': medH,'medS': medS,'medV': medV,'medR': medR,'medG': medG,'medB': medB,'meanR': meanR,'meanG': meanG,'meanB': meanB,'meanH': meanH,'meanS': meanS,'meanV': meanV}
+    dict = {
+        'medH': medH,
+        'medS': medS,
+        'medV': medV,
+        'medR': medR,
+        'medG': medG,
+        'medB': medB,
+        'meanR': meanR,
+        'meanG': meanG,
+        'meanB': meanB,
+        'meanH': meanH,
+        'meanS': meanS,
+        'meanV': meanV
+    }
     return dict
 
 def split_image(image):
