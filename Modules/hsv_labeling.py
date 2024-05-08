@@ -9,7 +9,7 @@ from TileSplitter import get_tiles
 #og dumber det hele i en csv fil, når man har labelt samtlige 1825 tiles:))))))))))))))))))))
 hsv_labels = []
 for i in range(1, 74):
-    path = os.path.abspath(__file__+'/../../../') + f'\King Domino dataset\Cropped and perspective corrected boards\\{i}.jpg'
+    path = f'\King Domino dataset\Cropped and perspective corrected boards\\{i}.jpg'
     image = cv.imread(path)
     print(path)
     tiles = get_tiles(image)
