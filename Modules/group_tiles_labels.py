@@ -115,7 +115,7 @@ def count_points(tiles_dict, crown_dict, all_tile_groups):
 # hsv_values = [ast.literal_eval(medians) for medians in hsv_values_strs]
 
 # Usual path extraction
-path = r'C:\DAKI 2.semester\DUAS_miniprojekt\Kingdomino\King Domino dataset\Full game areas\unknown3.jpg'
+path = r"King Domino dataset/Full game areas/2.jpg"
 print(path)
 unknown_image = cv.imread(path)
 # tiles = get_tiles(unknown_image)
@@ -162,5 +162,5 @@ print('Total points in image: ', total_points)
 
 # Udskriv antallet af tiles i hver gruppe
 for i, tile_group in enumerate(all_tile_groups):
-     label = tiles_dict[tile_group[0]]
-     print(f"Gruppe {i + 1}: Antal tiles = {len(tile_group)}, Label = {label}")
+    label = tiles_dict[tile_group[0]]
+    print(f"Gruppe {i + 1}: Antal tiles = {len(tile_group)}, Label = {label}")

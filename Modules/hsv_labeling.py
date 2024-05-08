@@ -2,7 +2,7 @@ import cv2 as cv
 import numpy as np
 import os
 import pandas as pd
-from Kingdomino.Modules.TileSplitter import get_tiles
+from TileSplitter import get_tiles
 
 #Indlæser alle billederne i Cropped and perspective corrected boards-mappen en af gangen
 #Og splitter dem op i tiles, spørger efter hvilket label tilen skal have

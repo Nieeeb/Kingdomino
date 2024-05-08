@@ -7,7 +7,7 @@ import ast
 import seaborn as sns
 IMAGE, TILE, LABEL, HSV = 0, 1, 2, 3
 
-path = r"Modules/NimRod/hsv_training.csv"
+path = r"King Domino dataset/hsv_training.csv"
 df = pd.read_csv(path)
 df['hsv'] = df['hsv'].apply(ast.literal_eval)
 

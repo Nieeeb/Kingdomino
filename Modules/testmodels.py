@@ -88,9 +88,9 @@ def test_models(x_train, y_train, x_test, y_test):
 
 def main():
     data = load_data()
-    #x_train, y_train, x_validate, y_validate, x_test, y_test = complete_split(data, True)
+    x_train, y_train, x_validate, y_validate, x_test, y_test = complete_split(data, True)
     
-    #test_models(x_train, y_train, x_validate, y_validate)
+    test_models(x_train, y_train, x_validate, y_validate)
     
     x_train, y_train, x_test, y_test = complete_split(data)
     randomforest = RandomForestClassifier(random_state=42, n_jobs=-1, criterion='entropy', max_depth=None, max_features='sqrt', min_samples_leaf=1, min_samples_split=7, n_estimators=80)
