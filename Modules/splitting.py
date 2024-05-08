@@ -67,8 +67,8 @@ def display_keypoints_on_image(image, keypoints):
 def give_matching_boxes(templates, image):
     boxes = []
     for template in templates:
-        temp_gray = convert_to_grayscale(template)
-        image_gray = convert_to_grayscale(image)
+        # temp_gray = convert_to_grayscale(template)
+        # image_gray = convert_to_grayscale(image)
         result = cv.matchTemplate(image, template, cv.TM_CCOEFF_NORMED)
         
         threshold = 0.7
@@ -140,7 +140,7 @@ def create_dict_with_pos_and_crowncount(df):
 def main():
     #path = os.path.abspath(__file__ + '/../../../') + f'\King Domino dataset\Cropped and perspective corrected boards\\4.jpg'
     #path = os.path.dirname(os.getcwd()) + '\King Domino dataset\Cropped and perspective corrected boards\\1.jpg'
-    path = r"King Domino dataset\Cropped and perspective corrected boards\61.jpg"
+    path = r"King Domino dataset\Cropped and perspective corrected boards\57.jpg"
     image = cv.imread(path)
     #cv.imshow("Board", image)
     cut_images = split_image(image)
