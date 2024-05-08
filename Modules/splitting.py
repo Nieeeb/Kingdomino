@@ -112,9 +112,6 @@ def rotate_image(image):
     
     return rotated_images
 
-def give_number_of_crowns(boxes):
-    return len(boxes)
-
 def create_templates():
     templates = [cv.imread(file) for file in glob.glob(r"Modules/Templates/*.png")]
     
