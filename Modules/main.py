@@ -27,17 +27,20 @@ def pre_counted_boards():
     training_df = pd.DataFrame(training_images)
     return training_df
 
+# Funktion der modtager manuelt optalte point og udregner antal point ud fra funktionerne
+# Udregner hvor mange point der bliver talt forkert
 def count(boards, model):
     boards_copy = boards.copy()
     
     errors = []
     points = []
+    # Kører igennem alle billederne
     for index, imageSeries in boards.iterrows():
         image = load_image_from_id(imageSeries['imageID'])
-        points_in_image, tiles, _, _ = count_points_in_image(image, model)
+        points_in_image, _, _, _ = count_points_in_image(image, model)
         points.append(points_in_image)
-        # print(tiles)
         
+        # Udregner antal point talt forkert
         error = abs(imageSeries['human counted points'] - points_in_image)
         errors.append(error)
         

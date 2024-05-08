@@ -1,4 +1,5 @@
 from splitting import *
+import os
 import pandas as pd
 import cv2 as cv
 import numpy as np
@@ -6,27 +7,32 @@ import random
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
-import ast
 
+# Funktion der modtager et billede id og læser det fra datasættet
 def load_image_from_id(imageid):
     path = f"King Domino dataset/Cropped and perspective corrected boards/{imageid}.jpg"
     return cv.imread(path)
 
+# Funktion der modtager et billede og tile id og giver data for det givne tile
 def give_specific_tile(tileid, image):
     cut_images = split_image(image)
     tile = cut_images[tileid]['cut_image']
     return tile
 
+# Funktion der modtager et billede id og tile id og giver data for det givne tile
 def give_tile_by_image_and_tile_id(imageid, tileid):
     image = load_image_from_id(imageid)
     tile = give_specific_tile(tileid, image)
     return tile
 
+# Funktion der modtager et billede og tile position og giver data for det givne tile
 def give_tile_by_image_and_position(imageid, tilePosition):
     tileId = 5 + tilePosition[0] * tilePosition[1]
     tile = give_tile_by_image_and_position(imageid, tileId)
     return tile
 
+# Første version af labeling brugte en anden splitter, så labels udtrækkes
+# Der sættes nye udregnede farve værdier på
 def convert_hsv_data():
     raw_data = pd.read_csv(r"Modules/NimRod/hsv_training.csv")
     image_id = []
@@ -106,14 +112,16 @@ def attach_means(raw_data):
     
     return working_data
 
+# Funktioner der giver 15 tilfældelige billede ider
+# Disse billeder udtages som træningsæt
 def pick_training_ids(percentage, imagecount):
     ids_to_keep = [i for i in range(imagecount)]
     random.Random(69).shuffle(ids_to_keep)
     count_to_remove = round(imagecount * percentage)
     ids_to_remove = ids_to_keep[:count_to_remove]
-    # print(ids_to_remove)
     return ids_to_remove
 
+# Splitter data i træning og test
 def split_data(raw_data):
     working_data = raw_data.copy()
     ids_to_remove = pick_training_ids(0.2, 73)
@@ -121,6 +129,7 @@ def split_data(raw_data):
     test_data = working_data[working_data['image'].isin(ids_to_remove)]
     return train_data, test_data
 
+# Splitter data i x og y, så det kan gives til en model
 def give_x_and_y(raw_data):
     working_data = raw_data.copy()
     labelColumn = 'label'
@@ -131,6 +140,8 @@ def give_x_and_y(raw_data):
     
     return x, y
 
+# Samling af split funktioner. Kan også give valideringsæt
+# Valideringsættet benyttes til træning af tile classification
 def complete_split(raw_data, giveValidationSet=False):
     train_data, test_data = split_data(raw_data)
     x_test, y_test = give_x_and_y(test_data)
@@ -150,7 +161,7 @@ def attach_then_save_data():
     attached.to_csv(r"King Domino dataset/attached.csv", index=False)
 
 def load_data():
-    path = os.path.abspath(__file__ + '/../../../') + f'\Kingdomino\King Domino dataset/attached.csv'
+    path = f'\Kingdomino\King Domino dataset/attached.csv'
     raw_data = pd.read_csv(path)
     return raw_data
 

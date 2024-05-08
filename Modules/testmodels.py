@@ -1,29 +1,15 @@
 from dataloading import *
 import numpy as np
 import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
-from sklearn import svm
-from sklearn.semi_supervised import LabelPropagation
-from sklearn.naive_bayes import BernoulliNB
-from sklearn.linear_model import LogisticRegression
 import numpy as np
 import pandas as pd
-from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV, PredefinedSplit
-from sklearn.linear_model import LogisticRegression, SGDClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.pipeline import Pipeline
-from sklearn.dummy import DummyClassifier
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.tree import DecisionTreeClassifier
 import copy
 from sklearn.svm import SVC
-from sklearn.model_selection import cross_val_score
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
 # Funktion til at køre en grid search på en model og nogle givne parametre
 # Opsat til at træne på træningssæt og teste på valideringssæt
