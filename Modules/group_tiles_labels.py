@@ -26,10 +26,8 @@ def find_neighbor_tiles(tile_index):
 
 # Funktion til at finde alle tiles i en gruppe af sammenhængende tiles med samme label
 def find_tile_group(tile_index, tiles_dict, visited):
-    # Initialiser en liste til at gemme tiles i gruppen
+    # Initialiser liste til at gemme tiles i gruppen
     tile_group = []
-
-    # Stack til DFS
     stack = [tile_index]
 
     while stack:
@@ -48,7 +46,6 @@ def find_tile_group(tile_index, tiles_dict, visited):
 
     return tile_group
 
-
 # Funktion til at finde alle forskellige grupper af sammenhængende tiles med samme label
 def find_all_tile_groups(tiles_dict):
     visited = set()
@@ -61,7 +58,7 @@ def find_all_tile_groups(tiles_dict):
 
     return tile_groups
 
-# Funktion til at tælle point på 
+# Funktion til at tælle point i gruppéringerne
 def count_points(tiles_dict, crown_dict, all_tile_groups):
     total_points = 0
     unknown_exists = False
@@ -69,16 +66,22 @@ def count_points(tiles_dict, crown_dict, all_tile_groups):
         crowns_in_group = 0
         for tile in groups:
             if tiles_dict[tile] == 'unknown':
+                # Tjek alle tiles for unknowns
                 unknown_exists = True
+
             crowns_in_group += crown_dict[tile]
             if tile == (2, 2) and tiles_dict[tile] == 'home':
+                # Tjek midten for home-tilen
                 total_points += 10
+
         total_points += crowns_in_group*len(groups)
 
     if not unknown_exists:
         total_points += 5
+
     return total_points
 
+# Denne funktion er en samling af alle de funktioner, der skal bruges til at regne point.
 def count_points_in_image(image, classifier):
     df = define_tiles_for_image(classifier, image)
     tiles_dict = create_dict_with_pos_and_label(df)
@@ -87,6 +90,7 @@ def count_points_in_image(image, classifier):
     total_points = count_points(tiles_dict, crown_dict, all_tile_groups)
     return total_points, tiles_dict, all_tile_groups
 
+# Denne main() bliver kun brugt til at teste scriptet
 def main():
     # Usual path extraction
     path = r"King Domino dataset/Full game areas/2.jpg"

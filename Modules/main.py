@@ -37,7 +37,7 @@ def count(boards, model):
     # Kører igennem alle billederne
     for index, imageSeries in boards.iterrows():
         image = load_image_from_id(imageSeries['imageID'])
-        points_in_image, _, _, _ = count_points_in_image(image, model)
+        points_in_image, _, _ = count_points_in_image(image, model)
         points.append(points_in_image)
         
         # Udregner antal point talt forkert
