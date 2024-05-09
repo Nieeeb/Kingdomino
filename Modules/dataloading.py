@@ -147,7 +147,8 @@ def complete_split(raw_data, giveValidationSet=False):
     x_test, y_test = give_x_and_y(test_data)
     if giveValidationSet:
         x_train, y_train = give_x_and_y(train_data)
-        x_train, x_validate, y_train, y_validate = train_test_split(x_train, y_train, random_state=42, test_size=0.2, shuffle=True)
+        x_train, x_validate, y_train, y_validate = train_test_split(x_train, y_train, random_state=42, 
+                                                                    test_size=0.2, shuffle=True)
         return x_train, y_train, x_validate, y_validate, x_test, y_test
     else:
         x_train, y_train = give_x_and_y(test_data)
