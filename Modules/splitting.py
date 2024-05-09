@@ -56,7 +56,7 @@ def draw_boxes(image, boxes):
     result = image.copy()
     for (x1, y1, x2, y2) in boxes: 
         # draw the bounding box on the image 
-        cv.rectangle(result, (x1, y1), (x2, y2), (255, 0, 0), 3)
+        cv.rectangle(result, (x1, y1), (x2, y2), (0, 0, 255), 3)
     return result
 
 # Funktion der modtager et billede og returnerer 4 forskellige rotationer af det
@@ -227,7 +227,8 @@ def main():
     boxes = give_matching_boxes(rotated, image)
     box_centers = calculate_box_centers(boxes)
     
-    crowns_in_tiles = find_tiles_with_crowns(centers, box_centers)
+    crowns_with_tiles = find_tiles_with_crowns(centers, box_centers)
+    print(crowns_with_tiles)
     
     drawn = draw_boxes(image, boxes)
     # Show the template and the final output 
