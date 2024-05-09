@@ -162,7 +162,7 @@ def attach_then_save_data():
     attached.to_csv(r"King Domino dataset/attached.csv", index=False)
 
 def load_data():
-    path = f'\Kingdomino\King Domino dataset/attached.csv'
+    path = r"King Domino dataset/attached.csv"
     raw_data = pd.read_csv(path)
     return raw_data
 
