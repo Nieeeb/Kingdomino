@@ -234,6 +234,15 @@ def main():
     # Show the template and the final output 
     cv.imshow("After NMS", drawn) 
     
+    path = r"King Domino dataset\Cropped and perspective corrected boards\1.jpg"
+    image = cv.imread(path)
+    
+    path = r"Modules/Templates/templateSwamp.png"
+    template = cv.imread(path)
+    
+    result = cv.matchTemplate(image, template, cv.TM_CCOEFF_NORMED)
+    cv.imshow("Template Matching", result)
+    
     cv.waitKey()
     cv.destroyAllWindows()
     
