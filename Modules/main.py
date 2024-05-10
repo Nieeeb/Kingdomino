@@ -41,7 +41,7 @@ def count(boards, model):
         points.append(points_in_image)
         
         # Udregner antal point talt forkert
-        error = abs(imageSeries['human counted points'] - points_in_image)
+        error = imageSeries['human counted points'] - points_in_image
         errors.append(error)
         
     boards_copy['machine counted points'] = points
@@ -64,7 +64,7 @@ def main():
     
     # Finder hvor der er fejl:
     print("Images with errors:")
-    errors = boards[boards['error'] > 0]
+    errors = boards[boards['error'] != 0]
     print(errors)
     print(f"Number of Errors: {len(errors)} out of {len(boards)}")
 
