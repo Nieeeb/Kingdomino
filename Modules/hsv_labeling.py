@@ -1,6 +1,5 @@
 import cv2 as cv
 import numpy as np
-import os
 import pandas as pd
 from TileSplitter import get_tiles
 
@@ -13,7 +12,6 @@ for i in range(1, 74):
     image = cv.imread(path)
     print(path)
     tiles = get_tiles(image)
-
 
     for x, row in enumerate(tiles):
         for y, tile in enumerate(row):

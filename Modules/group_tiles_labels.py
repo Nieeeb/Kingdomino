@@ -4,6 +4,7 @@ from dataloading import *
 
 # Funktion til at finde nabo-tiles baseret på tile index
 def find_neighbor_tiles(tile_index):
+    # Pak tile_index ud
     row_index, col_index = tile_index
     neighbors = []
 
@@ -20,6 +21,7 @@ def find_neighbor_tiles(tile_index):
     # Højre
     if col_index < 4:
         neighbors.append((row_index, col_index + 1))
+    # Disse If-statements sørger for, at der ikke bliver taget nogen naboer med, som ikke er i billedet
 
     return neighbors
 
@@ -31,6 +33,7 @@ def find_tile_group(tile_index, tiles_dict, visited):
     stack = [tile_index]
 
     while stack:
+        # stack bliver tom, når der ikke er flere mulige naboer med samme label.
         current_tile = stack.pop()
         tile_group.append(current_tile)
         visited.add(current_tile)
@@ -41,6 +44,7 @@ def find_tile_group(tile_index, tiles_dict, visited):
         # Tilføj naboer til stacken, hvis de har samme label og ikke er besøgte
         for neighbor in neighbors:
             if neighbor in tiles_dict and tiles_dict[neighbor] == tiles_dict[tile_index] and neighbor not in visited:
+                # Tjek at nabo er en legit tile, har samme label som første tile og om den er besøgt før
                 stack.append(neighbor)
                 visited.add(neighbor)  # Marker nabo-tile som besøgt
 
@@ -81,7 +85,7 @@ def count_points(tiles_dict, crown_dict, all_tile_groups):
 
     return total_points
 
-# Denne funktion er en samling af alle de funktioner, der skal bruges til at regne point.
+# Funktion til at samle alle de funktioner, der skal bruges til at regne point.
 def count_points_in_image(image, classifier):
     df = define_tiles_for_image(classifier, image)
     tiles_dict = create_dict_with_pos_and_label(df)
