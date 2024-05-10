@@ -185,7 +185,7 @@ def count_crowns(image):
 # Funktion der modtager et billede og giver en samling a tiles
 # Hver tile får udregnet HSV og RGB værdier, samt antal crowns fundet
 def split_image(image):
-    # Finder hvilke tile index er er crowns i.
+    # Finder hvilke tile index der er crowns i.
     # Et givent tile index kan forekomme flere gange hvis der er mere end 1 crown
     tiles_with_crowns = count_crowns(image)
     
